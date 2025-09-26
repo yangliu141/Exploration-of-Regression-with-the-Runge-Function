@@ -6,4 +6,4 @@ In this project, we will focus on the Runge function. We will fit polynomials of
 
 The required packages for running the code can be installed by pip install -r requirements.txt
 
-The notebooks in the code folder...
+The notebook exercisesweek39.ipynb in the week39 folder in the code folder are used for the exercises week 39. The code produces a plot illustrating the Bias-Variance trade-off and a heatmap showing the MSE of a Ridge regression model for various polynomial degrees and lambda values.
