@@ -59,7 +59,7 @@ class RunAllExperiments:
             
             counter = 0
             for comb in combinations:
-                gd = GradientDescent(featuresWithIntercept, logging)
+                gd = GradientDescent(n_features, logging=logging)
                 gd.setOptimizer(comb[1])
                 gd.setGradient(comb[0])
 
