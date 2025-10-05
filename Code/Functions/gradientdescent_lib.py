@@ -49,16 +49,17 @@ def testFit(xTest : np.array, yTest : np.array, beta : np.array) -> tuple[float,
 
 class GradientDescent:
     """
-    Keeps and updates the parameters optimized by gradient descent.
+    Keeps and updates the parameters optimized by gradient descent. Runs the training loop
     """
-    def __init__(self, n_features : int, logging : bool) -> None:
+    def __init__(self, n_features : int, noIntercept : bool = False, stochastichGD : bool = False, logging : bool = False) -> None:
         self.n_features = n_features
-        self.stochastichGD = False
+        self.noIntercept = noIntercept
+        self.stochastichGD = stochastichGD
 
         self.logging = logging
 
         # Initialize weights for gradient descent
-        self.theta = np.random.rand(n_features)
+        self.theta = np.random.rand(n_features + int(not noIntercept))
 
     def setOptimizer(self, optimizer : Optimizers) -> None:
         self.optimizer = optimizer
@@ -72,10 +73,6 @@ class GradientDescent:
     
     def predict(self, X_test : np.array) -> np.array:
         return X_test @ self.theta
-    
-    def addStochasticGD(self, noIntercept : bool) -> None:
-        self.stochastichGD = True
-        self.noIntercept = noIntercept
 
     def train(self, X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array, epoch : int):
         learningRate = self.optimizer.learningRate
@@ -117,6 +114,7 @@ class GradientDescent:
     def evaluate(self, X_test : np.array, y_test : np.array) -> float:
         prediction = self.predict(X_test)
         return MSE(prediction, y_test)
+
 
 
 #--------------------------------------------------------------
