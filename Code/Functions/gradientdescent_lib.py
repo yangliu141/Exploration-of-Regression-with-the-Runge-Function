@@ -4,20 +4,35 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import resample
 from sklearn.preprocessing import normalize
 
+from Functions.optimizers import Optimizers
+from Functions.gradients import Gradients
 
-def generateData(nData : int, noise_std: float = 0.1): 
+
+def generateData(nData : int, noise : float) -> tuple[np.array, np.array, np.array, np.array]:
+    """
+    Generates normalized train and test data with noise for the Runge function
+    """
     x = np.linspace(-1, 1, nData)
-    y = 1 / (1 + 25*np.pow(x, 2)) + np.random.normal(0, noise_std, size=nData)
+    y = 1 / (1 + 25*np.pow(x, 2)) + np.random.normal(0, noise, size=nData)
 
     return train_test_split(normalize(x.reshape(-1, 1), axis=0, norm='max'), y)
 
 def featureMat(x : np.array, p : int, noIntercept : bool = True) -> np.array:
+    """
+    Returns a feature matrix of degree p of the given data 
+    """
     return x[:, None] ** np.arange(int(noIntercept), p+1)
 
 def MSE(target : np.array, pred : np.array) -> float:
+    """
+    Computes the MSE from the given prediction and target
+    """
     return np.average(np.pow(target - pred, 2))
 
 def R2(target : np.array, pred : np.array) -> float:
+    """
+    Computes the R2 from the given prediction and target
+    """
     ybar = np.average(target)
     denom = np.sum(np.pow(target - ybar, 2))
     
@@ -25,159 +40,85 @@ def R2(target : np.array, pred : np.array) -> float:
     return 1 - np.sum(np.pow(target - pred, 2)) / denom
 
 def testFit(xTest : np.array, yTest : np.array, beta : np.array) -> tuple[float, float]:
+    """
+    Returns the MSE and R2 of the given input model and data 
+    """
     pred = xTest @ beta
     return MSE(yTest, pred), R2(yTest, pred)
 
-class Optimizers: 
-    class ADAM:
-        """
-        Implmenets the ADAM optimizer
-        """
-        def __init__(self, learningRate, decay1, decay2, n):
-            self.beta1 = decay1
-            self.beta2 = decay2
-            self.lr = learningRate
-            self.m = np.zeros(n)
-            self.v = np.zeros(n)
-            self.epsilon = 1E-8
-            self.t = 0
-
-        def __call__(self, theta, gradient):
-            self.t += 1
-            self.m = self.beta1 * self.m + (1 - self.beta1) * gradient
-            self.v = self.beta2 * self.v + (1 - self.beta2) * (gradient ** 2)
-            m_hat = self.m / (1 - self.beta1 ** self.t)
-            v_hat = self.v / (1 - self.beta2 ** self.t)
-            theta = theta - self.lr * m_hat / np.sqrt(v_hat + self.epsilon)
-            return theta
-        
-        def __str__(self): return "ADAM   "
-
-    class RMSprop:
-        """
-        Implmenets the RMSprop optimizer
-        """
-        def __init__(self, learningRate, decay, n):
-            self.lr = learningRate
-            self.decay = decay
-            self.movingAverage2 = np.zeros(n)
-            self.epsilon = 1E-8
-
-        def __call__(self, theta, gradient):
-            self.movingAverage2 = self.decay*self.movingAverage2 + (1-self.decay) * np.pow(gradient, 2)
-            theta = theta - self.lr * gradient / np.sqrt(self.movingAverage2 + self.epsilon)
-            return theta
-        
-        def __str__(self): return "RMSprop"
-
-    class ADAgrad:
-        """
-        Implements the ADAgrad optimizer
-        """
-        def __init__(self, learningRate, n):
-            self.learningRate = learningRate
-            self.gradSum = np.zeros(n)
-            self.epsilon = 1E-8
-
-        def __call__(self, theta, gradient):
-            self.gradSum = self.gradSum + np.pow(gradient, 2)
-            lr = self.learningRate / (np.sqrt(self.gradSum)+self.epsilon)
-            theta = theta - lr * gradient
-            return theta
-        
-        def __str__(self): return "ADAgrad"
-
-    class Simple:
-        """
-        Simple gradient descent with constant learningrate. 
-        """
-        def __init__(self, learningRate):
-            self.learningRate = learningRate
-
-        def __call__(self, theta, gradient):
-            return theta - self.learningRate * gradient
-        def __str__(self): return "No optimizer"
-
-    class Momentum:
-        """
-        Implements gradient descent with momentom
-        """
-        def __init__(self, learningRate, momentum):
-            self.learningRate = learningRate
-            self.momentum = momentum
-            self.lastTheta = None
-        
-        def __call__(self, theta, gradient):
-            self.lastTheta = theta
-            return theta - self.learningRate * gradient + self.momentum*(theta - self.lastTheta)
-        
-        def __str__(self): return "Momentum"
-
-class Gradients:
-    class OLS:
-        def __call__(self, theta, X, y):
-            return 2/X.shape[0] * (X.T @ X @ theta - X.T @ y)
-        def __str__(self): return "OLS  "
-        
-    class Ridge:
-        def __init__(self, l):
-            self.l = l
-        def __call__(self, theta, X, y):
-            return 2/X.shape[0] * (X.T @ X @ theta - X.T @ y) + 2*self.l*theta
-        def __str__(self): return "Ridge"
-    
-    class Lasso:
-        def __init__(self, l):
-            self.l = l
-        def __call__(self, theta, X, y):
-            return 2/X.shape[0] * (X.T @ X @ theta - X.T @ y) + self.l*np.sign(theta)
-        def __str__(self): return "Lasso"
 
 class GradientDescent:
     """
     Keeps and updates the parameters optimized by gradient descent.
     """
-    def __init__(self, n_features, seed = 0):
+    def __init__(self, n_features : int, logging : bool) -> None:
         self.n_features = n_features
-        if seed != 0: np.random.seed(seed)
+        self.stochastichGD = False
+
+        self.logging = logging
 
         # Initialize weights for gradient descent
         self.theta = np.random.rand(n_features)
 
-    def setOptimizer(self, optimizer):
+    def setOptimizer(self, optimizer : Optimizers) -> None:
         self.optimizer = optimizer
 
-    def setGradient(self, gradient):
+    def setGradient(self, gradient : Gradients) -> None:
         self.gradient = gradient
 
-    def forward(self, x_train, y_train):
+    def forward(self, x_train : np.array, y_train : np.array) -> np.array:
         gradient = self.gradient(self.theta, x_train, y_train)
         self.theta = self.optimizer(self.theta, gradient)
     
-    def predict(self, X_test):
+    def predict(self, X_test : np.array) -> np.array:
         return X_test @ self.theta
     
-    def train(self, X_train, y_train,
-            epoch : int):
+    def addStochasticGD(self, noIntercept : bool) -> None:
+        self.stochastichGD = True
+        self.noIntercept = noIntercept
+
+    def train(self, X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array, epoch : int):
         learningRate = self.optimizer.learningRate
-        minChange = min(learningRate/1000, 0.001)
+
+        # For early stopping
+        minChange = min(learningRate/1000, 0.001)  # sets the minimum change in MSE before early stopping
+        numDiffs = 10 # sets number of consecutive steps that must change less than this minimum change
+        mseDiffs = np.ones(numDiffs)  # keeps track of MSE diferences for early stopping 
 
         thetas = []
         MSEs = np.zeros(epoch)
+
         for t in range(epoch):
-            self.forward(X_train, y_train)
+            if (self.stochastichGD): # stochastic gradient descent 
+                x_train_re, y_train_re = resample(X_train, y_train)
+                y_train_re = y_train_re.flatten()
+                self.forward(featureMat(x_train_re, self.n_features, noIntercept=self.noIntercept), y_train_re)
+            else: # normal gradient descent
+                self.forward(X_train, y_train)
+
             thetas.append(self.theta)
 
-            MSEs[t] = MSE(self.predict(X_train), y_train)
-            # Early stopping
-            if t > 9 and (abs(MSEs[t]-MSEs[t-1]) < minChange): 
-                print(f"Early stopping at epoch {t}: Change in MSE={abs(MSEs[t] - MSEs[t-1]):.6f}")
-                break
-        return self.theta, MSEs
+            MSEs[t] = self.evaluate(X_test, y_test)
 
-    def evaluate(self, X_test, y_test):
+            # Early stopping
+            mseDiffs[t%numDiffs] = abs(MSEs[t]-MSEs[t-1]) # update the stored MSEs
+            if (np.all(mseDiffs < minChange)):
+                break
+
+        if (self.logging):
+            print(f"Training complete!\nTrained for {t} epoch with learning rate {learningRate},\
+                the model used {self.n_features} features,\
+                optimizer {self.optimizer} and gradient {self.gradient}.\n\
+                The best MSE was {MSEs.min():.3f} and was achived after {np.where(MSEs == MSEs.min())[0][0]} epochs.\
+                The final MSE was {MSEs[-1]:.3f}.")
+        
+        return self.theta, MSEs, t
+
+    def evaluate(self, X_test : np.array, y_test : np.array) -> float:
         prediction = self.predict(X_test)
         return MSE(prediction, y_test)
+
+
 #--------------------------------------------------------------
 #---------------------Real code starts here--------------------
 #NOTE: Vet ikke om dette fungerer lengre.
