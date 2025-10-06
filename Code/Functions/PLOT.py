@@ -18,7 +18,8 @@ def plot(
         y_integer_entries: bool = False,
         save : bool = False,
         scatter : list = None,
-        multiX : bool = False
+        multiX : bool = False,
+        diffColor : bool = True
 ):
     '''
     NOTE: In a notebook, run "%matplotlib inline" in your notebook before this function if you want plot displayed inline.
