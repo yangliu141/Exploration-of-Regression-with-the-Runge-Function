@@ -24,7 +24,11 @@ def featureMat(x : np.array, p : int, noIntercept : bool = True) -> np.array:
     return x[:, None] ** np.arange(int(noIntercept), p+1)
 
 def MSE(target : np.array, pred : np.array) -> float:
-    """
+    """normal(0, noise, size=nData)
+
+    return train_test_split(normalize(x.reshape(-1, 1), axis=0, norm='max'), y)
+
+def featureMat(x : np.array, p : int, noInte
     Computes the MSE from the given prediction and target
     """
     return np.average(np.pow(target - pred, 2))
