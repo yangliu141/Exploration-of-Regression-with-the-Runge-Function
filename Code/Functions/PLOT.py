@@ -62,6 +62,8 @@ def plot(
     FIG_HEIGHT = FIG_WIDTH * 0.6      # adjust aspect ratio
     STANDARD_LINEWIDTH = 1.5
 
+    color = ['tab:orange', 'tab:blue', 'tab:green', 'tab:red']
+
     # -------------------- Plotting function --------------------
 
     fig, ax = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT))
@@ -70,7 +72,7 @@ def plot(
         if scatter[i]:
             ax.scatter(x, y_features[i], label=y_feature_label[i], linewidth=STANDARD_LINEWIDTH)
         else:
-            ax.plot(x, y_features[i], label=y_feature_label[i], linewidth=STANDARD_LINEWIDTH, color="orange")
+            ax.plot(x, y_features[i], label=y_feature_label[i], linewidth=STANDARD_LINEWIDTH, color = color[i%(len(color))])
 
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)

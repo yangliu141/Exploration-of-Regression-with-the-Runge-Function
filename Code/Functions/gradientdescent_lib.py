@@ -79,7 +79,7 @@ class GradientDescent:
     
     def evaluate(self, X_test : np.array, y_test : np.array) -> float:
         prediction = self.predict(X_test)
-        return MSE(prediction, y_test)
+        return MSE(prediction, y_test), prediction
 
     def train(self, X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array, epoch : int = 100):
         learningRate = self.optimizer.learningRate
@@ -102,7 +102,7 @@ class GradientDescent:
 
             thetas.append(self.theta)
 
-            MSEs[t] = self.evaluate(X_test, y_test)
+            MSEs[t], prediction = self.evaluate(X_test, y_test)
 
             # Early stopping
             mseDiffs[t%numDiffs] = abs(MSEs[t]-MSEs[t-1]) # update the stored MSEs
@@ -124,8 +124,8 @@ class GradientDescent:
             X_train = featureMat(x_train, self.n_features, noIntercept=self.noIntercept)
             X_test = featureMat(x_test, self.n_features, noIntercept=self.noIntercept)
             self.train(X_train, y_train, X_test, y_test)
-            score = self.evaluate(X_test, y_test)
-            return score
+            score, predictions = self.evaluate(X_test, y_test)
+            return score, predictions
         return evaluate_model
 
 

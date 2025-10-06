@@ -11,8 +11,8 @@ def cross_validation(k: int, x, y, evaluate_model):
             x (np.ndarray): feature matrix
             y (np.ndarray): target vector
             evaluate_model (function): a function with signature
-                evaluate_model(x_train, y_train, x_test, y_test) -> float
-                that returns a performance score for the model.
+                evaluate_model(x_train, y_train, x_test, y_test) -> float, array
+                that returns a performance score for the model, and the predictions made for the test data
 
         Returns:
             float: mean performance score across folds
@@ -26,7 +26,7 @@ def cross_validation(k: int, x, y, evaluate_model):
         x_train, x_test = x[train_idx], x[test_idx]
         y_train, y_test = y[train_idx], y[test_idx]
         
-        performance = evaluate_model(x_train, y_train, x_test, y_test)
+        performance, predictions = evaluate_model(x_train, y_train, x_test, y_test)
         scores_kfold[fold] = performance
     
     return np.mean(scores_kfold), scores_kfold
