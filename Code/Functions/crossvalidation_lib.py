@@ -10,7 +10,7 @@ def cross_validation(k: int, x, y, evaluate_model):
             x (np.ndarray): feature matrix
             y (np.ndarray): target vector
             evaluate_model (function): a function with signature
-                performance_model(x_train, y_train, x_test, y_test) -> float
+                evaluate_model(x_train, y_train, x_test, y_test) -> float
                 that returns a performance score for the model.
 
         Returns:
