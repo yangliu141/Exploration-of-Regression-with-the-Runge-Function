@@ -32,7 +32,7 @@ def cross_validation(k: int, x, y, evaluate_model):
     return np.mean(scores_kfold), scores_kfold
 
 def convertToTable(results : np.array, file_path : str, write_type : str = "w"):
-    df = pd.DataFrame(results, index=["OLS", "Ridge", "Lasso"], columns=["Mean", "STD"])
+    df = pd.DataFrame(results, index=["OLS", "Ridge", "Lasso"], columns=[])
 
     with open("figures\\"+file_path, write_type) as f:
         f.write("\\newcommand{\\crossValidatoin}{\n")
