@@ -23,7 +23,7 @@ def plot(
     NOTE: In a notebook, run "%matplotlib inline" in your notebook before this function if you want plot displayed inline.
     
     This function takes the values above and makes a plot formated for reports in latex.
-    It saves the plot as a pdf as [figurename].pdf in folder foldername, and plots it inline in a notebook.
+    It saves the plot as a pdf as [figurename].pdf in folder [foldername], and plots it inline in a notebook.
 
     y_features is an array where each entry is a list of y values to plot. Entry i of the list should correspond
     to entry i of x_axis array.
@@ -36,7 +36,6 @@ def plot(
 
     # -------------------- Standard LaTeX-style settings --------------------
     mpl.rcParams.update({
-        #"text.usetex": True,       # LaTeX for all text
         "font.family": "serif",    # match LaTeX document
         "font.size": 10,           # document font size
         "axes.labelsize": 10,
