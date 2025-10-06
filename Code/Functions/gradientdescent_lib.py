@@ -78,7 +78,7 @@ class GradientDescent:
     def predict(self, X_test : np.array) -> np.array:
         return X_test @ self.theta
 
-    def train(self, X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array, epoch : int):
+    def train(self, X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array, epoch = 100 : int):
         learningRate = self.optimizer.learningRate
 
         # For early stopping
