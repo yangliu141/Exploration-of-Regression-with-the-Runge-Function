@@ -14,7 +14,6 @@ class RunAllExperiments:
         """
         Computes the test MSE and number of epochs for convergence for the different model complexities, optimizers and gradients
         """
-        np.random.seed(1)
 
         # define the data
         self.x_train, self.x_test, self.y_train, self.y_test = generateData(100, 0.1)
@@ -142,7 +141,3 @@ class RunAllExperiments:
                 f.write("}")
 
         print("Wrote tabels to file ", file_path)
-
-
-
-

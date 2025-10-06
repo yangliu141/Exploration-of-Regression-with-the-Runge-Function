@@ -77,6 +77,10 @@ class GradientDescent:
     
     def predict(self, X_test : np.array) -> np.array:
         return X_test @ self.theta
+    
+    def evaluate(self, X_test : np.array, y_test : np.array) -> float:
+        prediction = self.predict(X_test)
+        return MSE(prediction, y_test)
 
     def train(self, X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array, epoch : int):
         learningRate = self.optimizer.learningRate
