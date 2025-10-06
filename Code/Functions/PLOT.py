@@ -18,7 +18,8 @@ def plot(
         y_integer_entries: bool = False,
         save : bool = False,
         scatter : list = None,
-        multiX : bool = False
+        multiX : bool = False,
+        diffColor : bool = True
 ):
     '''
     NOTE: In a notebook, run "%matplotlib inline" in your notebook before this function if you want plot displayed inline.
@@ -70,7 +71,10 @@ def plot(
         if scatter[i]:
             ax.scatter(x, y_features[i], label=y_feature_label[i], linewidth=STANDARD_LINEWIDTH)
         else:
-            ax.plot(x, y_features[i], label=y_feature_label[i], linewidth=STANDARD_LINEWIDTH, color="orange")
+            if diffColor:
+                ax.plot(x, y_features[i], label=y_feature_label[i], linewidth=STANDARD_LINEWIDTH)
+            else:
+                ax.plot(x, y_features[i], label=y_feature_label[i], linewidth=STANDARD_LINEWIDTH, color="orange")
 
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
