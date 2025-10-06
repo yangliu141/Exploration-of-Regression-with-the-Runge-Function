@@ -7,6 +7,9 @@ from Functions.gradients import Gradients
 from Functions.optimizers import Optimizers
 
 class RunAllExperiments:
+    """
+    Runs all experiments of the different gradient, optimizers and number of features, computes the MSE and saves them to Latex tables. 
+    """
     def __init__(self) -> None:
         self.logs = None
 
@@ -111,6 +114,7 @@ class RunAllExperiments:
         """
         Exports the MSE [MSE], convergence [c] and benchMark [bm] logs to latex format.
         """
+        # Save the MSE values as a Latex table to file
         if type.lower() == "mse":
             with open(file_path, writeType) as f:
                 f.write("\\newcommand{\\results}{\n")
@@ -121,6 +125,7 @@ class RunAllExperiments:
                     f.write("\\end{table}\n\n")
                 f.write("}\n")
 
+        # Save the number of epoch run for each experiments as a Latex table to file
         if type.lower() == "c":
             with open(file_path, writeType) as f:
                 for i, table in enumerate(self.convergenceTables, start=0):
@@ -129,6 +134,7 @@ class RunAllExperiments:
                     f.write(table.to_latex(float_format="%d"))
                     f.write("\\end{table}\n")
 
+        # Saves as a Latex table to file, the benchmark values from the closed form solution of OLS and Ridge and the optimal values of Lasso
         if type.lower() == "bm":
             df = pd.DataFrame(self.getBenchMarkMSE(), index=["OLS", "Ridge", "Lasso"], columns=self.n_featuresList)
 

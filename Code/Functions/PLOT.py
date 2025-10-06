@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import os
-import numpy as np
-from matplotlib.ticker import MaxNLocator
 
 def plot(
         nGraphs: int,

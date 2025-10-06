@@ -2,7 +2,7 @@ from sklearn.model_selection import KFold
 import numpy as np
 import pandas as pd
 
-def cross_validation(k: int, x, y, evaluate_model):
+def cross_validation(k: int, x : np.array, y : np.array, evaluate_model : function) -> tuple[float, np.array]:
     """
         Perform k-fold cross-validation.
 
@@ -31,7 +31,10 @@ def cross_validation(k: int, x, y, evaluate_model):
     
     return np.mean(scores_kfold), scores_kfold
 
-def convertToTable(results : np.array, file_path : str, columns : list, description : str, name : str, write_type : str = "w"):
+def convertToTable(results : np.array, file_path : str, columns : list, description : str, name : str, write_type : str = "w") -> None:
+    """
+    Converts the input to a Latex table and saves it to a file. 
+    """
     df = pd.DataFrame(results, index=["OLS", "Ridge", "Lasso"], columns=columns)
 
     with open("figures\\"+file_path, write_type) as f:

@@ -2,7 +2,7 @@ from sklearn.utils import resample
 import numpy as np
 from Functions.gradientdescent_lib import MSE
 
-def bootstrap(n_bootstraps, X_train, y_train, X_test, y_test, evaluate_model):
+def bootstrap(n_bootstraps : int, X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array, evaluate_model : function) -> tuple[float, float, float]:
     """
         Performs n_bootstraps bootstraps.
 
@@ -36,15 +36,18 @@ def bootstrap(n_bootstraps, X_train, y_train, X_test, y_test, evaluate_model):
     return mse, bias, variance
 
 
-def theta_analytic_OLS(X, y):
+def theta_analytic_OLS(X : np.array, y : np.array) -> np.array:
     return np.linalg.pinv(X.T @ X) @ X.T @ y
     #np.linalg.pinv used to ensure numerical stability
 
-def evaluate_OLS_analytic(X_train, y_train, X_test, y_test):
-        theta = theta_analytic_OLS(X_train, y_train)
-        y_prediction = X_test @ theta
-        mse = MSE(y_prediction, y_test)
+def evaluate_OLS_analytic(X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array) -> tuple[float, np.array]:
+    """
+    Computes and returns the MSE of OLS closed form solution 
+    """        
+    theta = theta_analytic_OLS(X_train, y_train)
+    y_prediction = X_test @ theta
+    mse = MSE(y_prediction, y_test)
 
-        return mse, y_prediction
+    return mse, y_prediction
 
 
