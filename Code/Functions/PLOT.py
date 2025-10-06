@@ -18,7 +18,8 @@ def plot(
         y_integer_entries: bool = False,
         save : bool = False,
         scatter : list = None,
-        multiX : bool = False
+        multiX : bool = False,
+        y_logplot : bool = False
         ):
     '''
     NOTE: In a notebook, run "%matplotlib inline" in your notebook before this function if you want plot displayed inline.
@@ -77,6 +78,8 @@ def plot(
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
     ax.set_title(title)
+    if y_logplot:
+        ax.set_yscale('log')
 
     if x_integer_entries:
         ax.xaxis.set_major_locator(mpl.ticker.MaxNLocator(integer=True))
