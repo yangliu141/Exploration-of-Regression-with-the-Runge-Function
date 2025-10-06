@@ -1,3 +1,9 @@
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+import os
+import numpy as np
+from matplotlib.ticker import MaxNLocator
+
 #this function plots graphs
 def plot(
         n: int,
@@ -27,17 +33,10 @@ def plot(
     len(y_features) = len(y_features_label) = n
     
     '''
-    # -------------------- Jupyter Setup --------------------
-    # Must be first cell before any plotting
-    import matplotlib.pyplot as plt
-    import matplotlib as mpl
-    import os
-    import numpy as np
-    from matplotlib.ticker import MaxNLocator
 
     # -------------------- Standard LaTeX-style settings --------------------
     mpl.rcParams.update({
-        "text.usetex": True,       # LaTeX for all text
+        #"text.usetex": True,       # LaTeX for all text
         "font.family": "serif",    # match LaTeX document
         "font.size": 10,           # document font size
         "axes.labelsize": 10,
@@ -85,24 +84,3 @@ def plot(
         plt.savefig(f"{FIGURE_FOLDER}/{figurename}.pdf", format='pdf')
     plt.show() 
     plt.close(fig)  # free memory
-
-
-
-
-def main():
-    #Example use
-    plot(2, 
-         [1, 2, 3, 4], 
-        [
-            [2, 4, 6, 8],
-            [1, 3, 8, 2]
-        ], 
-        save=False)
-
-
-
-if __name__ == "__main__":
-    #runs code if not imported
-    main()
-
-

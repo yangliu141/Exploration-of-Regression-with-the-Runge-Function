@@ -82,7 +82,7 @@ class GradientDescent:
         prediction = self.predict(X_test)
         return MSE(prediction, y_test)
 
-    def train(self, X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array, epoch = 100 : int):
+    def train(self, X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array, epoch : int = 100):
         learningRate = self.optimizer.learningRate
 
         # For early stopping
@@ -124,7 +124,7 @@ class GradientDescent:
             
             X_train = featureMat(x_train, self.n_features, noIntercept=self.noIntercept)
             X_test = featureMat(x_test, self.n_features, noIntercept=self.noIntercept)
-            self.train(X_train, y_train)
+            self.train(X_train, y_train, X_test, y_test)
             score = self.evaluate(X_test, y_test)
             return score
         return evaluate_model
