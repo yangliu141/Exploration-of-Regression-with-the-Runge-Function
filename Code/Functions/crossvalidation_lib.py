@@ -1,5 +1,6 @@
 from sklearn.model_selection import KFold
 import numpy as np
+import pandas as pd
 
 def cross_validation(k: int, x, y, evaluate_model):
     """
@@ -29,3 +30,14 @@ def cross_validation(k: int, x, y, evaluate_model):
         scores_kfold[fold] = performance
     
     return np.mean(scores_kfold), scores_kfold
+
+def convertToTable(results : np.array, file_path : str, write_type : str = "w"):
+    df = pd.DataFrame(results, index=["OLS", "Ridge", "Lasso"], columns=["Mean", "STD"])
+
+    with open("figures\\"+file_path, write_type) as f:
+        f.write("\\newcommand{\\crossValidatoin}{\n")
+        f.write(f"% ---- Cross validation ----\n")
+        f.write(f"\\begin{{table}}[H]\n\\centering\n\\caption{{MSE mean and STD with cross validation for RMSprop with 4 features and different gradients}}\n"+"\\label{tab:crossValidation}")
+        f.write(df.to_latex(float_format="%.4f"))
+        f.write("\\end{table}\n")
+        f.write("}")

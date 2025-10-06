@@ -4,20 +4,21 @@ import os
 import numpy as np
 from matplotlib.ticker import MaxNLocator
 
-#this function plots graphs
 def plot(
-        n: int,
-        x_axis_array,
-        y_features,
+        nGraphs: int,
+        x_axis_array : list,
+        y_features : list,
         y_feature_label = None,
         foldername: str = 'figures',
         figurename: str = 'figure1',
-        x_label: str = 'x-axis',
-        y_label: str = 'y-axis',
-        title: str = 'title',
+        x_label: str = 'x',
+        y_label: str = 'y',
+        title: str = '',
         x_integer_entries: bool = False,
         y_integer_entries: bool = False,
-        save = False
+        save : bool = False,
+        scatter : list = None,
+        multiX : bool = False
 ):
     '''
     NOTE: In a notebook, run "%matplotlib inline" in your notebook before this function if you want plot displayed inline.
@@ -34,7 +35,10 @@ def plot(
     
     '''
 
-    # -------------------- Standard LaTeX-style settings --------------------
+    # default scatter to of for all graphs 
+    if scatter == None:
+        scatter = [False] * nGraphs
+
     mpl.rcParams.update({
         "font.family": "serif",    # match LaTeX document
         "font.size": 10,           # document font size
@@ -45,7 +49,7 @@ def plot(
     })
 
     if y_feature_label == None:
-        y_feature_label = list(range(n))
+        y_feature_label = list(range(nGraphs))
 
     # Folder to save figures
     FIGURE_FOLDER = foldername
@@ -61,8 +65,12 @@ def plot(
     # -------------------- Plotting function --------------------
 
     fig, ax = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT))
-    for i in range(n):
-        ax.plot(x_axis_array, y_features[i], label=y_feature_label[i], linewidth=STANDARD_LINEWIDTH)
+    for i in range(nGraphs):
+        x = x_axis_array[i] if multiX else x_axis_array
+        if scatter[i]:
+            ax.scatter(x, y_features[i], label=y_feature_label[i], linewidth=STANDARD_LINEWIDTH)
+        else:
+            ax.plot(x, y_features[i], label=y_feature_label[i], linewidth=STANDARD_LINEWIDTH, color="orange")
 
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
@@ -83,3 +91,4 @@ def plot(
         plt.savefig(f"{FIGURE_FOLDER}/{figurename}.pdf", format='pdf')
     plt.show() 
     plt.close(fig)  # free memory
+
