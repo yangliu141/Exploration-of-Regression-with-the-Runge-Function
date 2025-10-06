@@ -111,9 +111,15 @@ class GradientDescent:
         
         return self.theta, MSEs, t
 
-    def evaluate(self, X_test : np.array, y_test : np.array) -> float:
-        prediction = self.predict(X_test)
-        return MSE(prediction, y_test)
+    def evaluation_function(self):
+        def evaluate_model(x_train, y_train, x_test, y_test) -> float:
+            
+            X_train = featureMat(x_train, self.n_features, noIntercept=self.noIntercept)
+            X_test = featureMat(x_test, self.n_features, noIntercept=self.noIntercept)
+            self.train(X_train, y_train)
+            score = self.evaluate(X_test, y_test)
+            return score
+        return evaluate_model
 
 
 
