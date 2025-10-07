@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd  # used to create Latex tables 
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm, SymLogNorm
+import matplotlib as mpl
 from sklearn.linear_model import LinearRegression, Ridge, Lasso   # used for benchmarking
 
 from Functions.gradientdescent_lib import generateData, featureMat, GradientDescent, MSE
@@ -162,8 +163,23 @@ class RunAllExperiments:
         mseTransposed = np.array(self.allFeatureMSE).transpose(2, 1, 0)
         R2Transposed = np.array(self.allFeatureR2).transpose(2, 1, 0)
 
+        mpl.rcParams.update({
+            "font.family": "serif",    # match LaTeX document
+            "font.size": 10,           # document font size
+            "axes.labelsize": 10,
+            "legend.fontsize": 10,
+            "xtick.labelsize": 10,
+            "ytick.labelsize": 10,
+        })
+
+        COLUMNWIDTH_PT = 246.0           # LaTeX \columnwidth
+        INCHES_PER_PT = 1/72.27
+        FIG_WIDTH = COLUMNWIDTH_PT * INCHES_PER_PT
+        FIG_HEIGHT = FIG_WIDTH * 0.6      # adjust aspect ratio
+        STANDARD_LINEWIDTH = 1.5
+
         for i, (mse, r2) in enumerate(zip(mseTransposed, R2Transposed)):
-            fig, axes = plt.subplots(1, 2, figsize=(9, 3))
+            fig, axes = plt.subplots(1, 2, figsize=(FIG_WIDTH*2, FIG_HEIGHT))
 
             axes[0].imshow(np.array(mse))
             axes[1].imshow(np.array(r2))
@@ -173,16 +189,16 @@ class RunAllExperiments:
             axes[0].set_title(f"MSE")
             axes[0].set_yticks(np.arange(len(self.optimizers)))
             axes[0].set_yticklabels(self.optimizers)
-            axes[0].set_ylabel("Optimizers", fontsize=14)
-            axes[0].set_xlabel("Polynimal degree", fontsize=14)
+            axes[0].set_ylabel("Optimizers")
+            axes[0].set_xlabel("Polynimal degree")
 
             # R2 plot
             im1 = axes[1].imshow(r2, aspect='auto', cmap='plasma', origin='lower', norm=SymLogNorm(linthresh=0.01, linscale=1, vmin=r2.min(), vmax=r2.max()))
             axes[1].set_title(f"R²")
             axes[1].set_yticks(np.arange(len(self.optimizers)))
             axes[1].set_yticklabels(self.optimizers)
-            axes[1].set_ylabel("Optimizers", fontsize=14)  
-            axes[1].set_xlabel("Polynimal degree", fontsize=14)
+            axes[1].set_ylabel("Optimizers")  
+            axes[1].set_xlabel("Polynimal degree")
 
             # Colorbars
             cbar0 = fig.colorbar(im0, ax=axes[0], fraction=0.046, pad=0.04)
@@ -192,6 +208,6 @@ class RunAllExperiments:
             cbar0.set_ticklabels([f"{t:.2f}" for t in ticks]) 
 
             plt.tight_layout()
-            fig.savefig(filename+str(self.gradients[i])+".png", dpi=300, bbox_inches='tight')
+            fig.savefig(filename+"HeatmapMSE"+str(self.gradients[i])+".pdf", dpi=300, bbox_inches='tight', format='pdf')
             plt.show()
             plt.close(fig)
