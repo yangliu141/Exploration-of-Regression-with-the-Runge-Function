@@ -8,7 +8,7 @@ class Gradients:
         def __call__(self, theta : np.array, X : np.array, y : np.array) -> np.array:
             return 2/X.shape[0] * (X.T @ X @ theta - X.T @ y)
         
-        def __str__(self) -> str: return "OLS  "
+        def __str__(self) -> str: return "OLS"
         
     class Ridge:
         """

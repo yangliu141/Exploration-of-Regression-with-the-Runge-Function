@@ -30,7 +30,7 @@ class RunAllExperiments:
         learningRate = 0.05
         self.noIntercept = False
 
-        self.n_featuresList = range(0, 15) # searchspace for model complexity 
+        self.n_featuresList = range(0, 16) # searchspace for model complexity 
 
         logs = []
         logs.append("Optimizer                Gradient        Number epoch      Last MSE")
@@ -48,13 +48,13 @@ class RunAllExperiments:
             # Define the search space for this number of features 
             featuresWithIntercept = n_features+int(not self.noIntercept)
             self.gradients = [Gradients.OLS(), 
-                        Gradients.Ridge(0.01), 
-                        Gradients.Lasso(0.01)]
+                              Gradients.Ridge(0.01), 
+                              Gradients.Lasso(0.01)]
             self.optimizers = [Optimizers.Simple(learningRate),
-                        Optimizers.ADAM(learningRate, 0.9, 0.999, featuresWithIntercept),
-                        Optimizers.RMSprop(learningRate, 0.99, featuresWithIntercept),
-                        Optimizers.ADAgrad(learningRate, featuresWithIntercept),
-                        Optimizers.Momentum(learningRate, 0.9)]
+                               Optimizers.ADAM(learningRate, 0.9, 0.999, featuresWithIntercept),
+                               Optimizers.RMSprop(learningRate, 0.99, featuresWithIntercept),
+                               Optimizers.ADAgrad(learningRate, featuresWithIntercept),
+                               Optimizers.Momentum(learningRate, 0.9, featuresWithIntercept)]
             
             # get all pairs of gradient-optimizer combinations 
             combinations = [(grad, opt) for grad in self.gradients for opt in self.optimizers]

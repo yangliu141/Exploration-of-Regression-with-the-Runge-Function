@@ -75,10 +75,10 @@ class Optimizers:
         """
         Implements gradient descent with momentom
         """
-        def __init__(self, learningRate : float, momentum : float) -> None:
+        def __init__(self, learningRate : float, momentum : float, n : int) -> None:
             self.learningRate = learningRate
             self.momentum = momentum
-            self.lastTheta = None
+            self.lastTheta = np.zeros(n)
         
         def __call__(self, theta : np.array, gradient : np.array) -> np.array:
             newTheta = theta - self.learningRate * gradient + self.momentum*(theta - self.lastTheta)
