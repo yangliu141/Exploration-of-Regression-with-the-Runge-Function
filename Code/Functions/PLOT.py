@@ -21,8 +21,6 @@ def plot(
         y_logplot : bool = False
         ):
     '''
-    NOTE: In a notebook, run "%matplotlib inline" in your notebook before this function if you want plot displayed inline.
-    
     This function takes the values above and makes a plot formated for reports in latex.
     It saves the plot as a pdf as [figurename].pdf in folder [foldername], and plots it inline in a notebook.
 
@@ -149,6 +147,6 @@ def plot_thetas(
     plt.ylabel("Theta Value")
     plt.yscale("log")
     if save:
-        plt.savefig(f"{FIGURE_FOLDER}/{figurename}.pdf", format='pdf')
+        plt.savefig(f"{FIGURE_FOLDER}/{figurename}.pdf", format='pdf', bbox_inches='tight', pad_inches=0.02)
     plt.show() 
     plt.close()  # free memory
