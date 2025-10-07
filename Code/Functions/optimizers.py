@@ -81,7 +81,8 @@ class Optimizers:
             self.lastTheta = None
         
         def __call__(self, theta : np.array, gradient : np.array) -> np.array:
-            self.lastTheta = theta
-            return theta - self.learningRate * gradient + self.momentum*(theta - self.lastTheta)
+            newTheta = theta - self.learningRate * gradient + self.momentum*(theta - self.lastTheta)
+            self.lastTheta = newTheta
+            return newTheta
         
         def __str__(self) -> str: return "Momentum"

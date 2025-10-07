@@ -91,7 +91,7 @@ class GradientDescent:
     def predict(self, X_test : np.array) -> np.array:
         return X_test @ self.theta
     
-    def evaluate(self, X_test : np.array, y_test : np.array) -> float:
+    def evaluate(self, X_test : np.array, y_test : np.array) -> tuple[float, float]:
         prediction = self.predict(X_test)
         return MSE(y_test, prediction), R2(y_test, prediction)
 
@@ -142,6 +142,7 @@ class GradientDescent:
             X_train = featureMat(x_train, self.n_features, noIntercept=self.noIntercept)
             X_test = featureMat(x_test, self.n_features, noIntercept=self.noIntercept)
             self.train(X_train, y_train, X_test, y_test)
-            score, predictions = self.evaluate(X_test, y_test)
-            return score, predictions
+            predictions = self.predict(X_test)
+            mse, R2 = self.evaluate(X_test, y_test)
+            return mse, R2, predictions
         return evaluate_model

@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from typing import Callable, Tuple
 
-def cross_validation(k: int, x: np.ndarray, y: np.ndarray, evaluate_model: Callable[..., Tuple[float, np.ndarray]]) -> Tuple[float, np.ndarray]:
+def cross_validation(k: int, x: np.ndarray, y: np.ndarray, evaluate_model: Callable[..., Tuple[float, np.ndarray]]) -> Tuple[float, np.ndarray, float, np.ndarray]:
     """
         Perform k-fold cross-validation.
 
@@ -20,6 +20,7 @@ def cross_validation(k: int, x: np.ndarray, y: np.ndarray, evaluate_model: Calla
             np.ndarray: array of scores for each fold
     """
     scores_kfold = np.empty(k)
+    scores_R2 = np.empty(k)
 
     kfold = KFold(n_splits = k, shuffle = True, random_state = 10)
     
@@ -27,10 +28,11 @@ def cross_validation(k: int, x: np.ndarray, y: np.ndarray, evaluate_model: Calla
         x_train, x_test = x[train_idx], x[test_idx]
         y_train, y_test = y[train_idx], y[test_idx]
         
-        performance, predictions = evaluate_model(x_train, y_train, x_test, y_test)
-        scores_kfold[fold] = performance
+        mse, r2, predictions = evaluate_model(x_train, y_train, x_test, y_test)
+        scores_kfold[fold] = mse
+        scores_R2[fold] = r2
     
-    return np.mean(scores_kfold), scores_kfold
+    return np.mean(scores_kfold), scores_kfold, np.mean(scores_R2), scores_R2
 
 def convertToTable(results : np.array, file_path : str, columns : list, description : str, name : str, write_type : str = "w") -> None:
     """
