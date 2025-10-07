@@ -95,3 +95,58 @@ def plot(
     plt.show() 
     plt.close(fig)  # free memory
 
+
+
+
+
+
+
+def plot_thetas(
+        thetas,
+        foldername: str = 'figures',
+        figurename: str = 'figure1',
+        save : bool = False
+):
+    mpl.rcParams.update({
+        "font.family": "serif",    # match LaTeX document
+        "font.size": 10,           # document font size
+        "axes.labelsize": 10,
+        "legend.fontsize": 10,
+        "xtick.labelsize": 10,
+        "ytick.labelsize": 10,
+    })
+
+    # Folder to save figures
+    FIGURE_FOLDER = foldername
+    os.makedirs(FIGURE_FOLDER, exist_ok=True)
+
+    # Figure size & line width
+    COLUMNWIDTH_PT = 246.0           # LaTeX \columnwidth
+    INCHES_PER_PT = 1/72.27
+    FIG_WIDTH = COLUMNWIDTH_PT * INCHES_PER_PT
+    FIG_HEIGHT = FIG_WIDTH * 0.6      # adjust aspect ratio
+    STANDARD_LINEWIDTH = 1.5
+
+
+
+
+    # Plot the parameters theta as we increase the polynomial degree
+    plt.figure(figsize=(FIG_WIDTH, FIG_HEIGHT))
+    plt.title("Parameters Theta vs. Polynomial Degree Term")
+
+    # Make a color map across polynomial degrees
+    cmap = plt.cm.viridis
+    norm = plt.Normalize(vmin=0, vmax=len(thetas)-1)
+
+    for i, theta in enumerate(thetas):
+        colour = cmap(norm(i))
+        for j in range(len(theta)):
+            plt.scatter(j, theta[j], color=colour) #label=f'Degree {i+1}' if j == 0 else ""
+
+    plt.xlabel("Polynomial Degree Term")
+    plt.ylabel("Theta Value")
+    plt.yscale("log")
+    if save:
+        plt.savefig(f"{FIGURE_FOLDER}/{figurename}.pdf", format='pdf')
+    plt.show() 
+    plt.close()  # free memory
