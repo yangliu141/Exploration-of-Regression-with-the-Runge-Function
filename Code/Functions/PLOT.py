@@ -17,6 +17,7 @@ def plot(
         save : bool = False,
         scatter : list = None,
         multiX : bool = False,
+        x_logplot : bool = False,
         y_logplot : bool = False
         ):
     '''
@@ -76,6 +77,8 @@ def plot(
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
     ax.set_title(title)
+    if x_logplot:
+        ax.set_xscale('log')
     if y_logplot:
         ax.set_yscale('log')
 
@@ -132,7 +135,6 @@ def plot_thetas(
 
     # Plot the parameters theta as we increase the polynomial degree
     plt.figure(figsize=(FIG_WIDTH, FIG_HEIGHT))
-    plt.title("Parameters Theta vs. Polynomial Degree Term")
 
     # Make a color map across polynomial degrees
     cmap = plt.cm.viridis
