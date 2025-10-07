@@ -61,7 +61,7 @@ Before installation, make sure you have:
 - **You can add:** Setup instructions, usage examples, or contribution guidelines.
 - **Do not:** Leave it outdated when major changes are made.
 
-### `Expoliration of Regression with the Runge Function.pdf`
+### `Exploration of Regression with the Runge Function.pdf`
 - **Purpose:** The written report based on this repository
 - **You can:** Read it for a detailed explanation of the implementation and findings
 - **Do not:** Use the contents of this file without citing it properly
