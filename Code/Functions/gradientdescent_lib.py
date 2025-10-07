@@ -109,9 +109,9 @@ class GradientDescent:
 
         for t in range(epoch):
             if (self.stochastichGD): # stochastic gradient descent 
-                x_train_re, y_train_re = resample(X_train, y_train, random_state=1)
+                X_train_re, y_train_re = resample(X_train, y_train, random_state=1)
                 y_train_re = y_train_re.flatten()
-                self.forward(featureMat(x_train_re, self.n_features, noIntercept=self.noIntercept), y_train_re)
+                self.forward(X_train_re, y_train_re)
             else: # normal gradient descent
                 self.forward(X_train, y_train)
 
