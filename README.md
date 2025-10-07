@@ -25,7 +25,7 @@ Before installation, make sure you have:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yangliu/FYS-STK3155_Project1.git
+   git clone [https://github.com/yangliu/FYS-STK3155_Project1.git](https://github.uio.no/yangliu/FYS-STK3155_Project1.git)
    cd FYS-STK3155_Project1
    ```
 
