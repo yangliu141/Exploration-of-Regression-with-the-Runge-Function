@@ -18,7 +18,8 @@ def plot(
         scatter : list = None,
         multiX : bool = False,
         x_logplot : bool = False,
-        y_logplot : bool = False
+        y_logplot : bool = False,
+        legend_loc = 'best'
         ):
     '''
     This function takes the values above and makes a plot formated for reports in latex.
@@ -84,7 +85,7 @@ def plot(
         ax.xaxis.set_major_locator(mpl.ticker.MaxNLocator(integer=True))
     if y_integer_entries:
         ax.yaxis.set_major_locator(mpl.ticker.MaxNLocator(integer=True))
-    ax.legend()
+    ax.legend(loc = legend_loc)
     
     # Optional: adjust margins if labels clip
     plt.subplots_adjust(left=0.18, right=0.95, top=0.9, bottom=0.22)
