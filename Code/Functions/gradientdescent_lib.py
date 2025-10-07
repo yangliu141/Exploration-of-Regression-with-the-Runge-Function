@@ -93,7 +93,7 @@ class GradientDescent:
     
     def evaluate(self, X_test : np.array, y_test : np.array) -> float:
         prediction = self.predict(X_test)
-        return MSE(prediction, y_test), prediction
+        return MSE(y_test, prediction), R2(y_test, prediction)
 
     def train(self, X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array, epoch : int = 100):
         learningRate = self.optimizer.learningRate
@@ -105,6 +105,7 @@ class GradientDescent:
 
         thetas = []
         MSEs = np.zeros(epoch)
+        R2 = np.zeros(epoch)
 
         for t in range(epoch):
             if (self.stochastichGD): # stochastic gradient descent 
@@ -116,7 +117,7 @@ class GradientDescent:
 
             thetas.append(self.theta)
 
-            MSEs[t], prediction = self.evaluate(X_test, y_test)
+            MSEs[t], R2[t] = self.evaluate(X_test, y_test)
 
             # Early stopping
             mseDiffs[t%numDiffs] = abs(MSEs[t]-MSEs[t-1]) # update the stored MSEs
@@ -130,7 +131,7 @@ class GradientDescent:
                 The best MSE was {MSEs.min():.3f} and was achived after {np.where(MSEs == MSEs.min())[0][0]} epochs.\
                 The final MSE was {MSEs[-1]:.3f}.")
         
-        return self.theta, MSEs, t
+        return self.theta, MSEs, R2, t
 
     def evaluation_function(self):
         """

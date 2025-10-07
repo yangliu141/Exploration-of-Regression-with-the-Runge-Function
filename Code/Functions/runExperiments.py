@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd  # used to create Latex tables 
+import matplotlib.pyplot as plt
+from matplotlib.colors import LogNorm, SymLogNorm
 from sklearn.linear_model import LinearRegression, Ridge, Lasso   # used for benchmarking
 
 from Functions.gradientdescent_lib import generateData, featureMat, GradientDescent, MSE
@@ -27,7 +29,7 @@ class RunAllExperiments:
         learningRate = 0.05
         self.noIntercept = False
 
-        self.n_featuresList = [2, 4, 6] # searchspace for model complexity 
+        self.n_featuresList = range(0, 15) # searchspace for model complexity 
 
         logs = []
         logs.append("Optimizer                Gradient        Number epoch      Last MSE")
@@ -35,26 +37,30 @@ class RunAllExperiments:
         self.msesTables = []
         self.convergenceTables = []
 
+        self.allFeatureMSE = []
+        self.allFeatureR2 = []
+
         # loops through the different model complexities 
         for n_features in self.n_featuresList:
             logs.append(f"Numb features: {n_features}")
 
             # Define the search space for this number of features 
             featuresWithIntercept = n_features+int(not self.noIntercept)
-            gradients = [Gradients.OLS(), 
+            self.gradients = [Gradients.OLS(), 
                         Gradients.Ridge(0.01), 
                         Gradients.Lasso(0.01)]
-            optimizers = [Optimizers.Simple(learningRate),
+            self.optimizers = [Optimizers.Simple(learningRate),
                         Optimizers.ADAM(learningRate, 0.9, 0.999, featuresWithIntercept),
                         Optimizers.RMSprop(learningRate, 0.99, featuresWithIntercept),
                         Optimizers.ADAgrad(learningRate, featuresWithIntercept),
                         Optimizers.Momentum(learningRate, 0.9)]
             
             # get all pairs of gradient-optimizer combinations 
-            combinations = [(grad, opt) for grad in gradients for opt in optimizers]
+            combinations = [(grad, opt) for grad in self.gradients for opt in self.optimizers]
 
-            allMses = np.zeros((len(optimizers), len(gradients)))
-            finalEpoch = np.zeros((len(optimizers), len(gradients)))
+            allMses = np.zeros((len(self.optimizers), len(self.gradients)))
+            allR2 = np.zeros((len(self.optimizers), len(self.gradients)))
+            finalEpoch = np.zeros((len(self.optimizers), len(self.gradients)))
 
             x_test_feat = featureMat(self.x_test, n_features, noIntercept=self.noIntercept)
             x_train_feat = featureMat(self.x_train, n_features, noIntercept=self.noIntercept)
@@ -65,17 +71,21 @@ class RunAllExperiments:
                 gd.setOptimizer(comb[1])
                 gd.setGradient(comb[0])
 
-                theta, mses, numberEpoch = gd.train(x_train_feat, self.y_train, x_test_feat, self.y_test, epoch)
+                theta, mses, R2, numberEpoch = gd.train(x_train_feat, self.y_train, x_test_feat, self.y_test, epoch)
 
                 logs.append(f"Opt: {str(comb[1]):14}      grad: {str(comb[0])}      epoch: {numberEpoch:3}      mse: {mses[numberEpoch]:.4f}")
                 
-                allMses[counter%len(optimizers)][int(counter / len(optimizers))] = mses[numberEpoch]
-                finalEpoch[counter%len(optimizers)][int(counter / len(optimizers))] = numberEpoch
+                allMses[counter%len(self.optimizers)][int(counter / len(self.optimizers))] = mses[numberEpoch]
+                allR2[counter%len(self.optimizers)][int(counter / len(self.optimizers))] = R2[numberEpoch]
+                finalEpoch[counter%len(self.optimizers)][int(counter / len(self.optimizers))] = numberEpoch
                 
                 counter += 1
-            
-            self.convergenceTables.append(pd.DataFrame(finalEpoch, index=optimizers, columns=gradients))
-            self.msesTables.append(pd.DataFrame(allMses, index=optimizers, columns=gradients))
+
+            self.allFeatureMSE.append(allMses)
+            self.allFeatureR2.append(allR2)
+
+            self.convergenceTables.append(pd.DataFrame(finalEpoch, index=self.optimizers, columns=self.gradients))
+            self.msesTables.append(pd.DataFrame(allMses, index=self.optimizers, columns=self.gradients))
         self.logs = logs
 
 
@@ -147,3 +157,41 @@ class RunAllExperiments:
                 f.write("}")
 
         print("Wrote tabels to file ", file_path)
+
+    def createHeatMap(self, filename):
+        mseTransposed = np.array(self.allFeatureMSE).transpose(2, 1, 0)
+        R2Transposed = np.array(self.allFeatureR2).transpose(2, 1, 0)
+
+        for i, (mse, r2) in enumerate(zip(mseTransposed, R2Transposed)):
+            fig, axes = plt.subplots(1, 2, figsize=(9, 3))
+
+            axes[0].imshow(np.array(mse))
+            axes[1].imshow(np.array(r2))
+
+            # MSE plot
+            im0 = axes[0].imshow(mse, aspect='auto', cmap='viridis', origin='lower', norm=LogNorm(vmin=mse.min(), vmax=mse.max()))
+            axes[0].set_title(f"MSE")
+            axes[0].set_yticks(np.arange(len(self.optimizers)))
+            axes[0].set_yticklabels(self.optimizers)
+            axes[0].set_ylabel("Optimizers", fontsize=14)
+            axes[0].set_xlabel("Polynimal degree", fontsize=14)
+
+            # R2 plot
+            im1 = axes[1].imshow(r2, aspect='auto', cmap='plasma', origin='lower', norm=SymLogNorm(linthresh=0.01, linscale=1, vmin=r2.min(), vmax=r2.max()))
+            axes[1].set_title(f"R²")
+            axes[1].set_yticks(np.arange(len(self.optimizers)))
+            axes[1].set_yticklabels(self.optimizers)
+            axes[1].set_ylabel("Optimizers", fontsize=14)  
+            axes[1].set_xlabel("Polynimal degree", fontsize=14)
+
+            # Colorbars
+            cbar0 = fig.colorbar(im0, ax=axes[0], fraction=0.046, pad=0.04)
+            cbar1 = fig.colorbar(im1, ax=axes[1], fraction=0.046, pad=0.04)
+            ticks = np.logspace(np.log10(mse.min()), np.log10(mse.max()), num=6)  # 6 ticks
+            cbar0.set_ticks(ticks)
+            cbar0.set_ticklabels([f"{t:.2f}" for t in ticks]) 
+
+            plt.tight_layout()
+            fig.savefig(filename+str(self.gradients[i])+".png", dpi=300, bbox_inches='tight')
+            plt.show()
+            plt.close(fig)
