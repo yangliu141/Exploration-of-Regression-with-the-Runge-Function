@@ -1,8 +1,9 @@
 from sklearn.utils import resample
 import numpy as np
 from Functions.gradientdescent_lib import MSE
+from typing import Callable
 
-def bootstrap(n_bootstraps : int, X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array, evaluate_model : function) -> tuple[float, float, float]:
+def bootstrap(n_bootstraps : int, X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array, evaluate_model : Callable) -> tuple[float, float, float]:
     """
         Performs n_bootstraps bootstraps.
 

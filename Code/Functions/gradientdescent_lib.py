@@ -14,7 +14,7 @@ def generateData(nData : int, noise : float) -> tuple[np.array, np.array, np.arr
     x = np.linspace(-1, 1, nData)
     y = 1 / (1 + 25*np.pow(x, 2)) + np.random.normal(0, noise, size=nData)
 
-    return train_test_split(normalize(x.reshape(-1, 1), axis=0, norm='max'), y)
+    return train_test_split(normalize(x.reshape(-1, 1), axis=0, norm='max'), y, test_size = 0.2)
 
 def featureMat(x : np.array, p : int, noIntercept : bool = True) -> np.array:
     """
