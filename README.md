@@ -12,6 +12,7 @@ Here you will find instructions on how to clone, install and run neccessary file
 - [Project prerequisites](#project-prerequisites)
 - [Installation](#installation)
 - [Folder Structure](#folder-structure)
+- [Description of Notebooks](#description-of-notebooks)
 - [Workflow](#workflow)
 
 ## Project Prerequisites
@@ -53,7 +54,6 @@ Before installation, make sure you have:
 - **Purpose:** Jupyter notebooks showcasing different analyses or results using the IMDb dataset and features.
 - **You can add:** New notebooks for experiments, visualizations, or analyses.
 - **Do not:** Delete or rename existing notebooks without updating references in other files.
-- 
 ---
 
 ### `README.md`
@@ -67,8 +67,16 @@ Before installation, make sure you have:
 - **Do not:** Use the contents of this file without citing it properly
 ---
 
+## Description of Nootebooks
+`GD_learningrate.ipynb` — Gradient Descent Learning Rate Analysis  
+`bias-variance-tradeoff.ipynb` — Bias–Variance Trade-off Exploration  
+`bias_variance.ipynb` — Bias and Variance Decomposition  
+`corssvalidation.ipynb` — Cross-Validation Implementation  
+`experiments.ipynb` — Experimental Results and Comparisons  
+`resampling_validation.ipynb` — Resampling and Validation Techniques  
+`simpleRidge.ipynb` — Ridge Regression Example
 
-## Workflow:
+## Workflow
 If you want to explore results interactively, open any notebook in `Showcase Notebooks/` with Jupyter. They can be run as is, from top to bottom.
 
 
