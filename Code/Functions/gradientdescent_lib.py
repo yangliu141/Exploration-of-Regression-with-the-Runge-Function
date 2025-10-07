@@ -38,7 +38,6 @@ def R2(target : np.array, pred : np.array) -> float:
     if denom == 0: return 0.0
     return 1 - np.sum(np.pow(target - pred, 2)) / denom
 
-
 def testFit(xTest : np.array, yTest : np.array, beta : np.array) -> tuple[float, float]:
     """
     Returns the MSE and R2 of the given input model and data 
@@ -46,6 +45,24 @@ def testFit(xTest : np.array, yTest : np.array, beta : np.array) -> tuple[float,
     pred = xTest @ beta
     return MSE(yTest, pred), R2(yTest, pred)
 
+
+def theta_analytic_OLS(X : np.array, y : np.array) -> np.array:
+    return np.linalg.pinv(X.T @ X) @ X.T @ y
+    #np.linalg.pinv used to ensure numerical stability
+
+def evaluate_OLS_analytic(X_train : np.array, y_train : np.array, X_test : np.array, y_test : np.array) -> tuple[float, np.array]:
+    """
+    Computes and returns the MSE of OLS closed form solution 
+    """        
+    theta = theta_analytic_OLS(X_train, y_train)
+    y_prediction = X_test @ theta
+    mse = MSE(y_prediction, y_test)
+
+    return mse, y_prediction
+
+def theta_analytic_Ridge(X : np.array, y : np.array, lambd = 0.05) -> np.array:
+    n_features = X.shape[1]
+    return np.linalg.pinv(X.T @ X + lambd * np.identity(n_features)) @ X.T @ y
 
 class GradientDescent:
     """
