@@ -36,7 +36,7 @@ def R2(target : np.array, pred : np.array) -> float:
     denom = np.sum(np.power(target - ybar, 2))
     
     if denom == 0: return 0.0
-    return 1 - np.sum(np.pow(target - pred, 2)) / denom
+    return 1 - np.sum(np.power(target - pred, 2)) / denom
 
 def testFit(xTest : np.array, yTest : np.array, beta : np.array) -> tuple[float, float]:
     """
