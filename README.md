@@ -12,9 +12,7 @@ Here you will find instructions on how to clone, install and run neccessary file
 - [Project prerequisites](#project-prerequisites)
 - [Installation](#installation)
 - [Folder Structure](#folder-structure)
-- [Working with Features](#working-with-features)
 - [Workflow](#workflow)
-- [License](#license)
 
 ## Project Prerequisites
 Before installation, make sure you have:
@@ -38,7 +36,7 @@ Before installation, make sure you have:
 
 3. Run the project (see [workflow](#workflow)):
    ```bash
-   python file_name.py
+   python file_name.ipynb
    ```
 
 
@@ -68,6 +66,7 @@ Before installation, make sure you have:
 
 ## Workflow:
 If you want to explore results interactively, open any notebook in `Showcase Notebooks/` with Jupyter. They can be run as is, from top to bottom.
+
 
 ## Authors
 William Schjerve Moe, Hallvard Hareide, Max Følstad-Andresen & Yang Liu
