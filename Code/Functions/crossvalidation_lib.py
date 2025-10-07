@@ -1,8 +1,9 @@
 from sklearn.model_selection import KFold
 import numpy as np
 import pandas as pd
+from typing import Callable, Tuple
 
-def cross_validation(k: int, x : np.array, y : np.array, evaluate_model : function) -> tuple[float, np.array]:
+def cross_validation(k: int, x: np.ndarray, y: np.ndarray, evaluate_model: Callable[..., Tuple[float, np.ndarray]]) -> Tuple[float, np.ndarray]:
     """
         Perform k-fold cross-validation.
 

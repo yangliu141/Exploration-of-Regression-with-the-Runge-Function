@@ -36,7 +36,7 @@ class Optimizers:
             self.epsilon = 1E-8
 
         def __call__(self, theta : np.array, gradient : np.array) -> np.array:
-            self.movingAverage2 = self.decay*self.movingAverage2 + (1-self.decay) * np.pow(gradient, 2)
+            self.movingAverage2 = self.decay*self.movingAverage2 + (1-self.decay) * np.power(gradient, 2)
             theta = theta - self.learningRate * gradient / np.sqrt(self.movingAverage2 + self.epsilon)
             return theta
         
@@ -52,7 +52,7 @@ class Optimizers:
             self.epsilon = 1E-8
 
         def __call__(self, theta : np.array, gradient : np.array) -> np.array:
-            self.gradSum = self.gradSum + np.pow(gradient, 2)
+            self.gradSum = self.gradSum + np.power(gradient, 2)
             lr = self.learningRate / (np.sqrt(self.gradSum)+self.epsilon)
             theta = theta - lr * gradient
             return theta

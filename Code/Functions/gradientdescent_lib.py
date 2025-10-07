@@ -12,7 +12,7 @@ def generateData(nData : int, noise : float) -> tuple[np.array, np.array, np.arr
     Generates normalized train and test data with noise for the Runge function
     """
     x = np.linspace(-1, 1, nData)
-    y = 1 / (1 + 25*np.pow(x, 2)) + np.random.normal(0, noise, size=nData)
+    y = 1 / (1 + 25*np.power(x, 2)) + np.random.normal(0, noise, size=nData)
 
     return train_test_split(normalize(x.reshape(-1, 1), axis=0, norm='max'), y, test_size = 0.2)
 
@@ -26,14 +26,14 @@ def MSE(target : np.array, pred : np.array) -> float:
     """
     Computes the MSE from the given prediction and target
     """
-    return np.average(np.pow(target - pred, 2))
+    return np.average(np.power(target - pred, 2))
 
 def R2(target : np.array, pred : np.array) -> float:
     """
     Computes the R2 from the given prediction and target
     """
     ybar = np.average(target)
-    denom = np.sum(np.pow(target - ybar, 2))
+    denom = np.sum(np.power(target - ybar, 2))
     
     if denom == 0: return 0.0
     return 1 - np.sum(np.pow(target - pred, 2)) / denom
