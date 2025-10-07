@@ -1,17 +1,68 @@
 \newcommand{\results}{
+% ---- 0 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 0 features.}
+\label{tab:training_mse0}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.1020 & 0.1018 & 0.1009 \\
+ADAM & 0.1019 & 0.1017 & 0.1016 \\
+RMSprop & 0.1018 & 0.1016 & 0.1015 \\
+ADAgrad & 0.1020 & 0.1009 & 0.1136 \\
+Momentum & 0.1020 & 0.1014 & 0.1016 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---- 1 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 1 features.}
+\label{tab:training_mse1}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.1108 & 0.1120 & 0.1087 \\
+ADAM & 0.1097 & 0.1096 & 0.1073 \\
+RMSprop & 0.1097 & 0.1090 & 0.1066 \\
+ADAgrad & 0.1249 & 0.1199 & 0.1225 \\
+Momentum & 0.1245 & 0.1137 & 0.1155 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 % ---- 2 features ----
 \begin{table}[H]
 \centering
 \caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 2 features.}
 \label{tab:training_mse2}\begin{tabular}{lrrr}
 \toprule
- & OLS   & Ridge & Lasso \\
+ & OLS & Ridge & Lasso \\
 \midrule
-No optimizer & 0.0870 & 0.0742 & 0.0582 \\
-ADAM & 0.0547 & 0.0501 & 0.0488 \\
-RMSprop & 0.0541 & 0.0495 & 0.0489 \\
-ADAgrad & 0.0628 & 0.1174 & 0.2501 \\
-Momentum & 0.1239 & 0.0680 & 0.0957 \\
+No optimizer & 0.1016 & 0.0834 & 0.1063 \\
+ADAM & 0.0561 & 0.0527 & 0.0532 \\
+RMSprop & 0.0570 & 0.0534 & 0.0521 \\
+ADAgrad & 0.1110 & 0.2547 & 0.2521 \\
+Momentum & 0.1421 & 0.0974 & 0.1032 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---- 3 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 3 features.}
+\label{tab:training_mse3}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.0741 & 0.1036 & 0.0842 \\
+ADAM & 0.0700 & 0.0617 & 0.0549 \\
+RMSprop & 0.0822 & 0.0626 & 0.0547 \\
+ADAgrad & 0.0868 & 0.1539 & 0.2214 \\
+Momentum & 0.0740 & 0.1579 & 0.0777 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -22,13 +73,30 @@ Momentum & 0.1239 & 0.0680 & 0.0957 \\
 \caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 4 features.}
 \label{tab:training_mse4}\begin{tabular}{lrrr}
 \toprule
- & OLS   & Ridge & Lasso \\
+ & OLS & Ridge & Lasso \\
 \midrule
-No optimizer & 0.1129 & 0.0562 & 0.1073 \\
-ADAM & 0.0591 & 0.0589 & 0.0499 \\
-RMSprop & 0.0420 & 0.0482 & 0.0574 \\
-ADAgrad & 0.0820 & 0.2255 & 0.2428 \\
-Momentum & 0.0738 & 0.0796 & 0.0666 \\
+No optimizer & 0.1044 & 0.0950 & 0.0664 \\
+ADAM & 0.0625 & 0.0633 & 0.0539 \\
+RMSprop & 0.0600 & 0.0642 & 0.0575 \\
+ADAgrad & 0.0510 & 0.1403 & 0.0665 \\
+Momentum & 0.3318 & 0.1282 & 0.2170 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---- 5 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 5 features.}
+\label{tab:training_mse5}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.0939 & 0.1124 & 0.0945 \\
+ADAM & 0.0273 & 0.0548 & 0.0631 \\
+RMSprop & 0.0401 & 0.0557 & 0.0582 \\
+ADAgrad & 0.0592 & 0.2924 & 0.1687 \\
+Momentum & 0.1396 & 0.0968 & 0.1408 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -39,13 +107,166 @@ Momentum & 0.0738 & 0.0796 & 0.0666 \\
 \caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 6 features.}
 \label{tab:training_mse6}\begin{tabular}{lrrr}
 \toprule
- & OLS   & Ridge & Lasso \\
+ & OLS & Ridge & Lasso \\
 \midrule
-No optimizer & 0.0741 & 0.1059 & 0.0934 \\
-ADAM & 0.0515 & 0.0522 & 0.0478 \\
-RMSprop & 0.0350 & 0.0452 & 0.0439 \\
-ADAgrad & 0.0997 & 0.2512 & 0.3791 \\
-Momentum & 0.1176 & 0.0759 & 0.0873 \\
+No optimizer & 0.0908 & 0.0817 & 0.0775 \\
+ADAM & 0.0481 & 0.0496 & 0.0446 \\
+RMSprop & 0.0348 & 0.0484 & 0.0498 \\
+ADAgrad & 0.0770 & 0.1422 & 0.4043 \\
+Momentum & 0.1638 & 0.1436 & 0.1666 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---- 7 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 7 features.}
+\label{tab:training_mse7}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.1328 & 0.1139 & 0.1000 \\
+ADAM & 0.0801 & 0.0629 & 0.0541 \\
+RMSprop & 0.0327 & 0.0496 & 0.0513 \\
+ADAgrad & 0.1672 & 0.1322 & 0.4666 \\
+Momentum & 0.3050 & 0.0982 & 0.3323 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---- 8 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 8 features.}
+\label{tab:training_mse8}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.1179 & 0.0827 & 0.0623 \\
+ADAM & 0.0684 & 0.0647 & 0.0515 \\
+RMSprop & 0.0354 & 0.0462 & 0.0517 \\
+ADAgrad & 0.0796 & 0.2345 & 0.8515 \\
+Momentum & 0.2801 & 0.1177 & 0.1285 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---- 9 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 9 features.}
+\label{tab:training_mse9}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.1053 & 0.1203 & 0.1081 \\
+ADAM & 0.0382 & 0.0463 & 0.0479 \\
+RMSprop & 0.0365 & 0.0468 & 0.0464 \\
+ADAgrad & 0.0894 & 0.4165 & 0.3071 \\
+Momentum & 0.4627 & 0.1381 & 0.5955 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---- 10 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 10 features.}
+\label{tab:training_mse10}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.1376 & 0.1443 & 0.1373 \\
+ADAM & 0.0342 & 0.0480 & 0.0519 \\
+RMSprop & 0.0471 & 0.0460 & 0.0539 \\
+ADAgrad & 0.0797 & 0.2146 & 0.6542 \\
+Momentum & 0.3037 & 0.2867 & 0.2448 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---- 11 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 11 features.}
+\label{tab:training_mse11}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.1611 & 0.1152 & 0.1255 \\
+ADAM & 0.0390 & 0.0440 & 0.0485 \\
+RMSprop & 0.0359 & 0.0467 & 0.0530 \\
+ADAgrad & 0.0936 & 0.2807 & 0.7971 \\
+Momentum & 0.4378 & 0.1138 & 0.5728 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---- 12 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 12 features.}
+\label{tab:training_mse12}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.1071 & 0.1115 & 0.1200 \\
+ADAM & 0.0477 & 0.0481 & 0.0472 \\
+RMSprop & 0.0401 & 0.0469 & 0.0530 \\
+ADAgrad & 0.1226 & 0.7747 & 1.5487 \\
+Momentum & 0.5166 & 0.3005 & 0.3859 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---- 13 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 13 features.}
+\label{tab:training_mse13}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.0794 & 0.1172 & 0.1895 \\
+ADAM & 0.0347 & 0.0453 & 0.0496 \\
+RMSprop & 0.0423 & 0.0469 & 0.0621 \\
+ADAgrad & 0.0636 & 0.3648 & 0.4069 \\
+Momentum & 0.5569 & 0.2127 & 0.7229 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---- 14 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 14 features.}
+\label{tab:training_mse14}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.3012 & 0.1165 & 0.1387 \\
+ADAM & 0.0483 & 0.0506 & 0.0468 \\
+RMSprop & 0.0418 & 0.0451 & 0.0525 \\
+ADAgrad & 0.0953 & 0.2017 & 0.6928 \\
+Momentum & 0.6816 & 0.4267 & 0.3154 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---- 15 features ----
+\begin{table}[H]
+\centering
+\caption{Final test MSE for gradient descent. Showing gradient-optimizer combinations with 15 features.}
+\label{tab:training_mse15}\begin{tabular}{lrrr}
+\toprule
+ & OLS & Ridge & Lasso \\
+\midrule
+No optimizer & 0.1323 & 0.1174 & 0.1153 \\
+ADAM & 0.0533 & 0.0509 & 0.0475 \\
+RMSprop & 0.0370 & 0.0460 & 0.0509 \\
+ADAgrad & 0.0909 & 0.1363 & 0.4895 \\
+Momentum & 0.4252 & 0.2086 & 0.2811 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -56,13 +277,13 @@ Momentum & 0.1176 & 0.0759 & 0.0873 \\
 \begin{table}[H]
 \centering
 \caption{Test MSEs from closed form solutions. Gradient plotted against number of features.}
-\label{tab:benchMarkMSE}\begin{tabular}{lrrr}
+\label{tab:benchMarkMSE}\begin{tabular}{lrrrrrrrrrrrrrrrr}
 \toprule
- & 2 & 4 & 6 \\
+ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\
 \midrule
-OLS & 0.0542 & 0.0262 & 0.0163 \\
-Ridge & 0.0541 & 0.0263 & 0.0205 \\
-Lasso & 0.0478 & 0.0478 & 0.0478 \\
+OLS & 0.1018 & 0.1097 & 0.0571 & 0.0825 & 0.0268 & 0.0304 & 0.0168 & 0.0220 & 0.0121 & 0.0127 & 0.0109 & 0.0177 & 0.0238 & 0.0230 & 0.0152 & 0.0193 \\
+Ridge & 0.1018 & 0.1097 & 0.0570 & 0.0821 & 0.0268 & 0.0291 & 0.0204 & 0.0204 & 0.0197 & 0.0204 & 0.0210 & 0.0223 & 0.0217 & 0.0230 & 0.0215 & 0.0226 \\
+Lasso & 0.1018 & 0.1051 & 0.0515 & 0.0515 & 0.0515 & 0.0515 & 0.0515 & 0.0515 & 0.0515 & 0.0515 & 0.0515 & 0.0515 & 0.0515 & 0.0515 & 0.0515 & 0.0515 \\
 \bottomrule
 \end{tabular}
 \end{table}

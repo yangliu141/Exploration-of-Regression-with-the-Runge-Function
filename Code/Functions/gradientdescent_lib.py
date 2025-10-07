@@ -56,9 +56,10 @@ def evaluate_OLS_analytic(X_train : np.array, y_train : np.array, X_test : np.ar
     """        
     theta = theta_analytic_OLS(X_train, y_train)
     y_prediction = X_test @ theta
-    mse = MSE(y_prediction, y_test)
+    mse = MSE(y_test, y_prediction)
+    r2 = R2(y_test, y_prediction)
 
-    return mse, y_prediction
+    return mse, r2, y_prediction
 
 def theta_analytic_Ridge(X : np.array, y : np.array, lambd = 0.05) -> np.array:
     n_features = X.shape[1]
