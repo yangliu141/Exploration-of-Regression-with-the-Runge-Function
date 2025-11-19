@@ -68,11 +68,11 @@ Before installation, make sure you have:
 ---
 
 ## Description of Nootebooks
-`GD_learningrate.ipynb` — Gradient Descent Learning Rate Analysis  
+`GD_learningrate.ipynb` — Gradient Descent with Differnet Learning Rates Analysis  
 `bias-variance-tradeoff.ipynb` — Bias–Variance Trade-off Exploration  
-`bias_variance.ipynb` — Bias and Variance Decomposition  
+`benchmarks_validation.ipynb` - Compares Scikit-learn Lasso Class with Lasso Gradient Descent 
 `corssvalidation.ipynb` — Cross-Validation Implementation  
-`experiments.ipynb` — Experimental Results and Comparisons  
+`experiments.ipynb` — Experimental Results and Comparisons of Gradient Descent 
 `resampling_validation.ipynb` — Resampling and Validation Techniques  
 `simpleRidge.ipynb` — Ridge Regression Example
 
