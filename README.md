@@ -1,4 +1,4 @@
-# FYS-STK3155_Project1
+# Exploration of Regression with the Runge Function
 ---
 
 ## Description
